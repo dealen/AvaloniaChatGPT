@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaChatGPT", "AvaloniaChatGPT\AvaloniaChatGPT.csproj", "{3CD63C6B-9C4D-4D3A-A91B-134D4832621C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaChatGPT.Android", "AvaloniaChatGPT.Android\AvaloniaChatGPT.Android.csproj", "{C67CDBAE-7B4C-4299-9E28-B5C110CAAF7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaChatGPT.Desktop", "AvaloniaChatGPT.Desktop\AvaloniaChatGPT.Desktop.csproj", "{80ED7470-FABC-41B6-92BE-5A92E805AFB6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaChatGPT.Browser", "AvaloniaChatGPT.Browser\AvaloniaChatGPT.Browser.csproj", "{D3D704F3-2662-4331-B962-DD49A272A9FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CD63C6B-9C4D-4D3A-A91B-134D4832621C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CD63C6B-9C4D-4D3A-A91B-134D4832621C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CD63C6B-9C4D-4D3A-A91B-134D4832621C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CD63C6B-9C4D-4D3A-A91B-134D4832621C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C67CDBAE-7B4C-4299-9E28-B5C110CAAF7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C67CDBAE-7B4C-4299-9E28-B5C110CAAF7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C67CDBAE-7B4C-4299-9E28-B5C110CAAF7A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C67CDBAE-7B4C-4299-9E28-B5C110CAAF7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C67CDBAE-7B4C-4299-9E28-B5C110CAAF7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C67CDBAE-7B4C-4299-9E28-B5C110CAAF7A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{80ED7470-FABC-41B6-92BE-5A92E805AFB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80ED7470-FABC-41B6-92BE-5A92E805AFB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80ED7470-FABC-41B6-92BE-5A92E805AFB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80ED7470-FABC-41B6-92BE-5A92E805AFB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3D704F3-2662-4331-B962-DD49A272A9FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3D704F3-2662-4331-B962-DD49A272A9FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3D704F3-2662-4331-B962-DD49A272A9FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3D704F3-2662-4331-B962-DD49A272A9FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9281E6FA-603C-4CFA-A120-2EFC71EC78C2}
+	EndGlobalSection
+EndGlobal
