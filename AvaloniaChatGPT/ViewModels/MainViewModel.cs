@@ -4,6 +4,16 @@ using System.Reactive;
 
 namespace AvaloniaChatGPT.ViewModels;
 
+/*
+ * TODO:
+ * - show messages as list (repeated item list?)
+ * -- each message asd separate textBox or TextBlock (or something else...)
+ * -- text should be selectable
+ * -- support markdown
+ * - options to save history (json, maybe something more)
+ * -- improve UI
+ */ 
+
 public class MainViewModel : ViewModelBase
 {
     private string _outputText;

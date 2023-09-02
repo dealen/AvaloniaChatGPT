@@ -7,6 +7,17 @@ using System;
 
 namespace AvaloniaChatGPT.ChatLogic
 {
+    // TODO: 
+    /* - add moderation 
+     * - add settings
+     * -- temperature
+     * -- model
+     * -- length (tokens)
+     * -- api key
+     * - system message
+     * - history of conversations
+     */
+
     internal class ChatHandler
     {
         private OpenAIAPI _openApi;
