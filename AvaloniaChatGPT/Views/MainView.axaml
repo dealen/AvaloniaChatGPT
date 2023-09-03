@@ -30,22 +30,41 @@
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
-      
+
       <TextBox Text="{Binding InputText, Mode=TwoWay}" />
       <Button Grid.Column="1" Content=">>>" Command="{Binding CommandSendMessage}" />
     </Grid>
 
-    
-    
-    <TextBlock
+    <ListBox Grid.Row="1"
+             Grid.Column="0"
+             ItemsSource="{Binding ListOfMessages}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="120"/>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Content="{Binding Time}" />
+            <Label Grid.Column="1" Content="{Binding ChatMessage}" />
+            <Label Grid.Column="2" Content="X" HorizontalAlignment="Center" HorizontalContentAlignment="Center" />
+            
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <!--<TextBlock
       Margin="10"
       Grid.Row="1"
       Grid.Column="0"
       
       Text="{Binding OutputText, Mode=TwoWay}"
       >
-    </TextBlock>
-    
+    </TextBlock>-->
+
   </Grid>
-  
+
 </UserControl>
