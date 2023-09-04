@@ -1,9 +1,11 @@
-﻿using AvaloniaChatGPT.ChatLogic;
+﻿using Avalonia.Threading;
+using AvaloniaChatGPT.ChatLogic;
 using AvaloniaChatGPT.Models;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 
 namespace AvaloniaChatGPT.ViewModels;
@@ -16,21 +18,29 @@ namespace AvaloniaChatGPT.ViewModels;
  * -- support markdown
  * - options to save history (json, maybe something more)
  * -- improve UI
- */ 
+ */
 
 public class MainViewModel : ViewModelBase
 {
-    private string _outputText;
     private string _inputText;
+    private bool _isApiWorking;
+    private Message _selectedMessage;
     private ObservableCollection<Message> _listOfMessages;
     private readonly ChatHandler _chatHandler;
 
     public MainViewModel()
     {
         CommandSendMessage = ReactiveCommand.Create(SendMessage);
+        CommandRemoveMessage = ReactiveCommand.Create<Message>(RemoveMessage);
         _chatHandler = new ChatHandler("");
 
         _listOfMessages = new ObservableCollection<Message>();
+    }
+
+    public bool IsApiWorking
+    {
+        get { return _isApiWorking; }
+        set { this.RaiseAndSetIfChanged(ref _isApiWorking, value); }
     }
 
     public string InputText
@@ -39,19 +49,20 @@ public class MainViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _inputText, value);
     }
 
-    public string OutputText
-    {
-        get => _outputText;
-        set => this.RaiseAndSetIfChanged(ref _outputText, value);
-    }
-
     public ObservableCollection<Message> ListOfMessages
     {
         get => _listOfMessages;
         set => this.RaiseAndSetIfChanged(ref _listOfMessages, value);
     }
 
+    public Message SelectedMessage
+    {
+        get => _selectedMessage;
+        set => this.RaiseAndSetIfChanged(ref _selectedMessage, value);
+    }
+
     public ReactiveCommand<Unit, Unit> CommandSendMessage { get; }
+    public ReactiveCommand<Message, Unit> CommandRemoveMessage { get; }
 
     private async void SendMessage()
     {
@@ -64,13 +75,21 @@ public class MainViewModel : ViewModelBase
             Time = DateTime.UtcNow,
             Type = MessageType.Out
         };
+        InputText = string.Empty;
 
         _listOfMessages.Add(msgQuestion);
         this.RaisePropertyChanged(nameof(ListOfMessages));
 
-        var response = await _chatHandler.AskQuestion(InputText);
+        Dispatcher.UIThread.Post(() => AskAPI(msgQuestion),
+                                            DispatcherPriority.Background);
+    }
 
-        if (response != null)
+    private async void AskAPI(Message msgQuestion)
+    {
+        IsApiWorking = true;
+        var response = await _chatHandler.AskQuestion(msgQuestion.ChatMessage);
+
+        if (!string.IsNullOrWhiteSpace(response))
         {
             var msg = new Message
             {
@@ -80,7 +99,22 @@ public class MainViewModel : ViewModelBase
                 Time = DateTime.UtcNow,
             };
             _listOfMessages.Add(msg);
+
+            this.RaisePropertyChanged(nameof(ListOfMessages));
         }
+        IsApiWorking = false;
+    }
+
+    private void RemoveMessage(Message message)
+    {
+        if (message is null)
+            return;
+
+        var messageForDeletion = _listOfMessages.FirstOrDefault(x => x.Id == message.Id);
+        if (messageForDeletion is null)
+            return;
+
+        _listOfMessages.Remove(messageForDeletion);
 
         this.RaisePropertyChanged(nameof(ListOfMessages));
     }

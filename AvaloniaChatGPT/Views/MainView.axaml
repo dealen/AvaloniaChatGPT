@@ -12,7 +12,7 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <Grid>
+  <Grid Margin="5">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
@@ -24,7 +24,20 @@
       <ColumnDefinition Width="Auto" />
     </Grid.ColumnDefinitions>
 
-    <Grid Grid.Row="0" Grid.Column="0">
+    <Label
+      ZIndex="2"
+      IsVisible="{Binding IsApiWorking}"
+      Content="LOADING..."
+      Grid.RowSpan="2"
+      Grid.ColumnSpan="3"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      Background="Black"></Label>
+    
+    <Grid
+      Grid.Row="0"
+      Grid.Column="0"
+      ZIndex="1">
 
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
@@ -32,39 +45,39 @@
       </Grid.ColumnDefinitions>
 
       <TextBox Text="{Binding InputText, Mode=TwoWay}" />
-      <Button Grid.Column="1" Content=">>>" Command="{Binding CommandSendMessage}" />
+      <Button
+        Grid.Column="1"
+        Content=">>>"
+        Command="{Binding CommandSendMessage}"
+        IsEnabled="{Binding !IsApiWorking}"/>
     </Grid>
 
-    <ListBox Grid.Row="1"
-             Grid.Column="0"
-             ItemsSource="{Binding ListOfMessages}">
+    <ListBox
+      ZIndex="0"
+      Grid.Row="1"
+      Grid.Column="0"
+      ItemsSource="{Binding ListOfMessages}"
+      SelectedItem="{Binding }">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <Grid>
             <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="120"/>
+              <ColumnDefinition Width="100"/>
               <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Column="0" Content="{Binding Time}" />
-            <Label Grid.Column="1" Content="{Binding ChatMessage}" />
-            <Label Grid.Column="2" Content="X" HorizontalAlignment="Center" HorizontalContentAlignment="Center" />
-            
+            <TextBlock Grid.Column="0" Text="{Binding Time}" TextWrapping="Wrap"/>
+            <TextBlock Grid.Column="1" Text="{Binding ChatMessage}"  TextWrapping="Wrap"/>
+            <Button Grid.Column="2"
+                    Content="X"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Center"/>
+            <!-- $parent[ListBox].DataContext.CommandRemoveMessage-->
           </Grid>
         </DataTemplate>
       </ListBox.ItemTemplate>
     </ListBox>
-
-    <!--<TextBlock
-      Margin="10"
-      Grid.Row="1"
-      Grid.Column="0"
-      
-      Text="{Binding OutputText, Mode=TwoWay}"
-      >
-    </TextBlock>-->
-
   </Grid>
 
 </UserControl>

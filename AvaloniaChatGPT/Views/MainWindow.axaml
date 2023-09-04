@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:AvaloniaChatGPT.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="500" Height="400"
         x:Class="AvaloniaChatGPT.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="AvaloniaChatGPT">

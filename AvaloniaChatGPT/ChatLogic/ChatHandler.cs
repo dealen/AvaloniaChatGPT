@@ -4,6 +4,7 @@ using OpenAI_API.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using MsBox.Avalonia;
 
 namespace AvaloniaChatGPT.ChatLogic
 {
@@ -49,6 +50,13 @@ namespace AvaloniaChatGPT.ChatLogic
 
         public async Task<string> AskQuestion(string message, List<string> sentences = null)
         {
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                var msg = MessageBoxManager.GetMessageBoxStandard("Missing question error", "Please fill question field.");
+                await msg.ShowAsync();
+                return string.Empty;
+            }
+
             IsChatInitialized();
 
             if (sentences != null)
