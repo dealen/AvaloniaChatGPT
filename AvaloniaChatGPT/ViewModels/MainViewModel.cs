@@ -23,14 +23,14 @@ public class MainViewModel : ViewModelBase
     private string _outputText;
     private string _inputText;
     private ObservableCollection<Message> _listOfMessages;
-    private List<Message> _messages;
     private readonly ChatHandler _chatHandler;
 
     public MainViewModel()
     {
         CommandSendMessage = ReactiveCommand.Create(SendMessage);
         _chatHandler = new ChatHandler("");
-        _messages = new List<Message>();
+
+        _listOfMessages = new ObservableCollection<Message>();
     }
 
     public string InputText
@@ -55,7 +55,7 @@ public class MainViewModel : ViewModelBase
 
     private async void SendMessage()
     {
-        // TODO asking & getting answer needs to be in a separate method or I just need to refresh UI in the middle
+        // TODO : Add OpenAI moderation
 
         var msgQuestion = new Message
         {
@@ -64,7 +64,9 @@ public class MainViewModel : ViewModelBase
             Time = DateTime.UtcNow,
             Type = MessageType.Out
         };
-        _messages.Add(msgQuestion);
+
+        _listOfMessages.Add(msgQuestion);
+        this.RaisePropertyChanged(nameof(ListOfMessages));
 
         var response = await _chatHandler.AskQuestion(InputText);
 
@@ -77,11 +79,9 @@ public class MainViewModel : ViewModelBase
                 Type = MessageType.In,
                 Time = DateTime.UtcNow,
             };
-            _messages.Add(msg);
-
-            OutputText = response;
+            _listOfMessages.Add(msg);
         }
 
-        ListOfMessages = new ObservableCollection<Message>(_messages);
+        this.RaisePropertyChanged(nameof(ListOfMessages));
     }
 }
