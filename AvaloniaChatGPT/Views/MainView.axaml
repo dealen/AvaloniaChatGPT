@@ -72,8 +72,9 @@
             <Button Grid.Column="2"
                     Content="X"
                     HorizontalAlignment="Center"
-                    HorizontalContentAlignment="Center"/>
-            <!-- $parent[ListBox].DataContext.CommandRemoveMessage-->
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandRemoveMessage}"
+                    CommandParameter="{Binding .}"/>
           </Grid>
         </DataTemplate>
       </ListBox.ItemTemplate>
