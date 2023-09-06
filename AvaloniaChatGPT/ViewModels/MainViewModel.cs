@@ -1,9 +1,9 @@
 ﻿using Avalonia.Threading;
 using AvaloniaChatGPT.ChatLogic;
 using AvaloniaChatGPT.Models;
+using MsBox.Avalonia;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
@@ -32,9 +32,18 @@ public class MainViewModel : ViewModelBase
     {
         CommandSendMessage = ReactiveCommand.Create(SendMessage);
         CommandRemoveMessage = ReactiveCommand.Create<Message>(RemoveMessage);
+        CommandRunSettings = ReactiveCommand.Create(RunSettings);
         _chatHandler = new ChatHandler("");
 
         _listOfMessages = new ObservableCollection<Message>();
+    }
+
+    private async void RunSettings()
+    {
+        // TODO: windows with settings for API along with API key to provide
+
+        var msg = MessageBoxManager.GetMessageBoxStandard("Settings", "Work in progress!");
+        await msg.ShowAsync();
     }
 
     public bool IsApiWorking
@@ -63,6 +72,7 @@ public class MainViewModel : ViewModelBase
 
     public ReactiveCommand<Unit, Unit> CommandSendMessage { get; }
     public ReactiveCommand<Message, Unit> CommandRemoveMessage { get; }
+    public ReactiveCommand<Unit, Unit> CommandRunSettings { get; }
 
     private async void SendMessage()
     {

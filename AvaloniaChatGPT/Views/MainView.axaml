@@ -5,7 +5,8 @@
              xmlns:vm="clr-namespace:AvaloniaChatGPT.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaChatGPT.Views.MainView"
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:MainViewModel"
+             Background="Gray">
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -28,6 +29,7 @@
       ZIndex="2"
       IsVisible="{Binding IsApiWorking}"
       Content="LOADING..."
+      Foreground="White"
       Grid.RowSpan="2"
       Grid.ColumnSpan="3"
       HorizontalAlignment="Center"
@@ -35,6 +37,7 @@
       Background="Black"></Label>
     
     <Grid
+      Margin="5"
       Grid.Row="0"
       Grid.Column="0"
       ZIndex="1">
@@ -42,22 +45,41 @@
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
 
       <TextBox Text="{Binding InputText, Mode=TwoWay}" />
+      
       <Button
         Grid.Column="1"
+        Margin="5 0 5 0"
+        Padding="10"
         Content=">>>"
+        Height="45"
         Command="{Binding CommandSendMessage}"
-        IsEnabled="{Binding !IsApiWorking}"/>
+        IsEnabled="{Binding !IsApiWorking}"
+        VerticalContentAlignment="Center"/>
+
+      <Button 
+        Grid.Column="2"
+        Height="45"
+        VerticalContentAlignment="Center"
+        Padding="5"
+        Command="{Binding CommandRunSettings}">
+        <Panel>
+          <Image Source="resm:AvaloniaChatGPT.Assets.setting.png"/>
+        </Panel>
+      </Button>
+      
     </Grid>
 
     <ListBox
       ZIndex="0"
+      Margin="5 0 5 5"
       Grid.Row="1"
       Grid.Column="0"
       ItemsSource="{Binding ListOfMessages}"
-      SelectedItem="{Binding }">
+      SelectedItem="{Binding SelectedMessage}">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <Grid>
