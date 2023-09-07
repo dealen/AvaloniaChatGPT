@@ -9,5 +9,9 @@
         x:Class="AvaloniaChatGPT.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="AvaloniaChatGPT">
-        <views:MainView />
+  <Panel>
+    <views:MainView />
+    <views:SettingsView IsVisible="False"/>
+  </Panel>
+
 </Window>

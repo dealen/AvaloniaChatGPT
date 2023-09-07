@@ -46,6 +46,8 @@ public class MainViewModel : ViewModelBase
         await msg.ShowAsync();
     }
 
+    public new bool IsViewVisible { get; set; } = false;
+
     public bool IsApiWorking
     {
         get { return _isApiWorking; }
