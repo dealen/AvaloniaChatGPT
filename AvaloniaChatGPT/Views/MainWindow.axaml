@@ -7,11 +7,21 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Width="500" Height="400"
         x:Class="AvaloniaChatGPT.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="AvaloniaChatGPT">
+  
+  <Window.DataContext>
+    <vm:MainViewModel />
+  </Window.DataContext>
+  
+  <Design.DataContext>
+    <vm:MainViewModel />
+  </Design.DataContext>
+  
   <Panel>
-    <views:MainView />
-    <views:SettingsView IsVisible="False"/>
+    <views:MainView IsVisible="{Binding IsMainViewVisible}" />
+    <views:SettingsView IsVisible="{Binding IsSettingsVisuble}" />
   </Panel>
 
 </Window>

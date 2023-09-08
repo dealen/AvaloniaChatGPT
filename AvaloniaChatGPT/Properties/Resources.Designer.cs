@@ -63,6 +63,36 @@ namespace AvaloniaChatGPT.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] cancel_reset {
+            get {
+                object obj = ResourceManager.GetObject("cancel_reset", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] check_mark_icon {
+            get {
+                object obj = ResourceManager.GetObject("check_mark_icon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] sent_icon {
+            get {
+                object obj = ResourceManager.GetObject("sent_icon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] setting {
             get {
                 object obj = ResourceManager.GetObject("setting", resourceCulture);

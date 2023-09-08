@@ -13,11 +13,17 @@
 
   
   <ItemGroup>
+    <AvaloniaResource Remove="Assets\cancel_reset.png" />
+    <AvaloniaResource Remove="Assets\check-mark-icon.png" />
+    <AvaloniaResource Remove="Assets\sent-icon.png" />
     <AvaloniaResource Remove="Assets\setting.png" />
   </ItemGroup>
 
   
   <ItemGroup>
+    <EmbeddedResource Include="Assets\cancel_reset.png" />
+    <EmbeddedResource Include="Assets\check-mark-icon.png" />
+    <EmbeddedResource Include="Assets\sent-icon.png" />
     <EmbeddedResource Include="Assets\setting.png" />
   </ItemGroup>
 

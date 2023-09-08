@@ -2,8 +2,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:AvaloniaChatGPT.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:DataType="vm:MainViewModel"
         x:Class="AvaloniaChatGPT.Views.SettingsView">
+  <Design.DataContext>
+    <vm:MainViewModel />
+  </Design.DataContext>
   <Grid Margin="5">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
@@ -26,15 +31,28 @@
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
 
       <Button
         Grid.Column="1"
         Height="45"
         VerticalContentAlignment="Center"
-        Padding="5">
+        Padding="5"
+        Command="{Binding CommandResetSettings}">
         <Panel>
-          <Image Source="resm:AvaloniaChatGPT.Assets.setting.png"/>
+          <Image Source="resm:AvaloniaChatGPT.Assets.check-mark-icon.png"/>
+        </Panel>
+      </Button>
+
+      <Button
+        Grid.Column="2"
+        Height="45"
+        VerticalContentAlignment="Center"
+        Padding="5"
+        Command="{Binding CommandSaveSettings}">
+        <Panel>
+          <Image Source="resm:AvaloniaChatGPT.Assets.cancel_reset.png"/>
         </Panel>
       </Button>
 

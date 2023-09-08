@@ -50,13 +50,6 @@ namespace AvaloniaChatGPT.ChatLogic
 
         public async Task<string> AskQuestion(string message, List<string> sentences = null)
         {
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                var msg = MessageBoxManager.GetMessageBoxStandard("Missing question error", "Please fill question field.");
-                await msg.ShowAsync();
-                return string.Empty;
-            }
-
             IsChatInitialized();
 
             if (sentences != null)

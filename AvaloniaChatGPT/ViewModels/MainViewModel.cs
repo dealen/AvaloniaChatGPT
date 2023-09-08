@@ -7,6 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
+using System.Threading.Tasks;
 
 namespace AvaloniaChatGPT.ViewModels;
 
@@ -26,6 +27,8 @@ public class MainViewModel : ViewModelBase
     private bool _isApiWorking;
     private Message _selectedMessage;
     private ObservableCollection<Message> _listOfMessages;
+    private bool _isMainViewVisible;
+    private bool _isSettingsVisuble;
     private readonly ChatHandler _chatHandler;
 
     public MainViewModel()
@@ -33,20 +36,24 @@ public class MainViewModel : ViewModelBase
         CommandSendMessage = ReactiveCommand.Create(SendMessage);
         CommandRemoveMessage = ReactiveCommand.Create<Message>(RemoveMessage);
         CommandRunSettings = ReactiveCommand.Create(RunSettings);
+        CommandSaveSettings = ReactiveCommand.Create(SaveSettings);
+        CommandResetSettings = ReactiveCommand.Create(ResetSettings);
+
         _chatHandler = new ChatHandler("");
 
         _listOfMessages = new ObservableCollection<Message>();
     }
 
-    private async void RunSettings()
+    public bool IsMainViewVisible
     {
-        // TODO: windows with settings for API along with API key to provide
-
-        var msg = MessageBoxManager.GetMessageBoxStandard("Settings", "Work in progress!");
-        await msg.ShowAsync();
+        get { return _isMainViewVisible; }
+        set { this.RaiseAndSetIfChanged(ref _isMainViewVisible, value); }
     }
-
-    public new bool IsViewVisible { get; set; } = false;
+    public bool IsSettingsVisuble
+    {
+        get { return _isSettingsVisuble; }
+        set { this.RaiseAndSetIfChanged(ref _isSettingsVisuble, value); }
+    }
 
     public bool IsApiWorking
     {
@@ -75,10 +82,19 @@ public class MainViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> CommandSendMessage { get; }
     public ReactiveCommand<Message, Unit> CommandRemoveMessage { get; }
     public ReactiveCommand<Unit, Unit> CommandRunSettings { get; }
+    public ReactiveCommand<Unit, Unit> CommandSaveSettings { get; }
+    public ReactiveCommand<Unit, Unit> CommandResetSettings { get; }
 
     private async void SendMessage()
     {
         // TODO : Add OpenAI moderation
+
+        if (string.IsNullOrWhiteSpace(InputText))
+        {
+            var msg = MessageBoxManager.GetMessageBoxStandard("Missing question error", "Please fill question field.");
+            await msg.ShowAsync();
+            return;
+        }
 
         var msgQuestion = new Message
         {
@@ -129,5 +145,32 @@ public class MainViewModel : ViewModelBase
         _listOfMessages.Remove(messageForDeletion);
 
         this.RaisePropertyChanged(nameof(ListOfMessages));
+    }
+
+    private void RunSettings()
+    {
+        ShowSettings();
+    }
+
+    private void ResetSettings()
+    {
+        HideSettings();
+    }
+
+    private void SaveSettings()
+    {
+        HideSettings();
+    }
+
+    private void ShowSettings()
+    {
+        IsMainViewVisible = false;
+        IsSettingsVisuble = true;
+    }
+
+    private void HideSettings()
+    {
+        IsMainViewVisible = true;
+        IsSettingsVisuble = false;
     }
 }

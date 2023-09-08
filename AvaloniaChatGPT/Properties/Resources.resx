@@ -118,6 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="cancel_reset" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\cancel_reset.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="check_mark_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\check-mark-icon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sent_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\sent-icon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="setting" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Assets\setting.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
