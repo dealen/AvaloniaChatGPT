@@ -11,12 +11,11 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    protected override void OnLoaded(RoutedEventArgs e)
+    protected override async void OnLoaded(RoutedEventArgs e)
     {
         if (DataContext is not null && DataContext is MainViewModel viewModel)
         {
-            viewModel.IsMainViewVisible = true;
-            viewModel.IsSettingsVisuble = false;
+            await viewModel.InitializeAsync();
         }
 
         base.OnLoaded(e);

@@ -5,7 +5,8 @@
         xmlns:vm="clr-namespace:AvaloniaChatGPT.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:DataType="vm:MainViewModel"
-        x:Class="AvaloniaChatGPT.Views.SettingsView">
+        x:Class="AvaloniaChatGPT.Views.SettingsView"
+        Background="Gray">
   <Design.DataContext>
     <vm:MainViewModel />
   </Design.DataContext>
@@ -39,7 +40,7 @@
         Height="45"
         VerticalContentAlignment="Center"
         Padding="5"
-        Command="{Binding CommandResetSettings}">
+        Command="{Binding CommandSaveSettings}">
         <Panel>
           <Image Source="resm:AvaloniaChatGPT.Assets.check-mark-icon.png"/>
         </Panel>
@@ -50,7 +51,7 @@
         Height="45"
         VerticalContentAlignment="Center"
         Padding="5"
-        Command="{Binding CommandSaveSettings}">
+        Command="{Binding CommandResetSettings}">
         <Panel>
           <Image Source="resm:AvaloniaChatGPT.Assets.cancel_reset.png"/>
         </Panel>
@@ -58,5 +59,23 @@
 
     </Grid>
 
+    <Grid Grid.Row="1">
+
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <Label Content="Open AI API Key"></Label>
+        <TextBox Text="{Binding ProvidedApiKey}" Width="350"></TextBox>
+      </StackPanel>
+    </Grid>
+    
   </Grid>
 </UserControl>
