@@ -133,12 +133,9 @@ public class MainViewModel : ViewModelBase
 
     private async void SendMessage()
     {
-        // TODO : Add OpenAI moderation
-
         if (string.IsNullOrWhiteSpace(InputText))
         {
-            var msg = MessageBoxManager.GetMessageBoxStandard("Missing question error", "Please fill question field.");
-            await msg.ShowAsync();
+            await ShowMessage("Missing question error", "Please fill question field.");
             return;
         }
 
@@ -146,8 +143,7 @@ public class MainViewModel : ViewModelBase
         {
             if (string.IsNullOrWhiteSpace(_settings.ApiKey))
             {
-                var msg = MessageBoxManager.GetMessageBoxStandard("Missing API KEY", "Please provide OpenAI API Key in order to use this application.");
-                await msg.ShowAsync();
+                await ShowMessage("Missing API KEY", "Please provide OpenAI API Key in order to use this application.");
 
                 RunSettings();
                 return;
@@ -156,6 +152,11 @@ public class MainViewModel : ViewModelBase
             _chatHandler = new ChatHandler(_settings.ApiKey);
         }
 
+        ProcessUserInput();
+    }
+
+    private void ProcessUserInput()
+    {
         var msgQuestion = new Message
         {
             Id = Guid.NewGuid(),
@@ -163,13 +164,28 @@ public class MainViewModel : ViewModelBase
             Time = DateTime.UtcNow,
             Type = MessageType.Out
         };
+
+        _chatHandler.Moderate(msgQuestion.ChatMessage);
+
         InputText = string.Empty;
+
 
         _listOfMessages.Add(msgQuestion);
         this.RaisePropertyChanged(nameof(ListOfMessages));
 
         Dispatcher.UIThread.Post(() => AskAPI(msgQuestion),
                                             DispatcherPriority.Background);
+    }
+
+    private async Task ShowMessage(string v1, string v2)
+    {
+        var msg = MessageBoxManager.GetMessageBoxStandard("Missing API KEY", "Please provide OpenAI API Key in order to use this application.");
+        await msg.ShowAsync();
+    }
+
+    private void CheckIfThereIsAnyQuestionContent()
+    {
+        throw new NotImplementedException();
     }
 
     private async void AskAPI(Message msgQuestion)
@@ -220,7 +236,6 @@ public class MainViewModel : ViewModelBase
 
     private void ResetSettings()
     {
-        // TODO keep Settings as is...
         HideSettings();
     }
 

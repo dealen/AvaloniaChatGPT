@@ -80,5 +80,10 @@ namespace AvaloniaChatGPT.ChatLogic
             _chat = null;
             _openApi = null;
         }
+
+        internal void Moderate(string chatMessage)
+        {
+            // TODO add logic here
+        }
     }
 }
