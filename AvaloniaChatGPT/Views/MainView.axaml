@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:AvaloniaChatGPT.ViewModels"
+             xmlns:md="https://github.com/whistyun/Markdown.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaChatGPT.Views.MainView"
              x:DataType="vm:MainViewModel"
@@ -96,7 +97,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" Text="{Binding Time}" TextWrapping="Wrap"/>
-            <TextBlock Grid.Column="1" Text="{Binding ChatMessage}"  TextWrapping="Wrap"/>
+            <md:MarkdownScrollViewer Grid.Column="1" Markdown="{Binding ChatMessage}" />
             <Button Grid.Column="2"
                     Content="X"
                     HorizontalAlignment="Center"
