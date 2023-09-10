@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.IO;
 
 namespace AvaloniaChatGPT.ViewModels;
 
@@ -24,6 +26,8 @@ namespace AvaloniaChatGPT.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
+    private string _settingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AvaloniaGPT");
+    private string _settingsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AvaloniaGPT", "settings.json");
     private string _inputText;
     private bool _isApiWorking;
     private bool _isMainViewVisible;
@@ -45,31 +49,6 @@ public class MainViewModel : ViewModelBase
         CommandResetSettings = ReactiveCommand.Create(ResetSettings);
 
         _listOfMessages = new ObservableCollection<Message>();
-    }
-
-    public async Task InitializeAsync()
-    {
-        IsMainViewVisible = true;
-        IsSettingsVisuble = false;
-
-        await ReadAppSettings();
-        IntializeOpenAIApi();
-    }
-
-    private void IntializeOpenAIApi()
-    {
-        if (string.IsNullOrWhiteSpace(_settings.ApiKey))
-        {
-            RunSettings();
-            return;
-        }
-    }
-
-    private async Task ReadAppSettings()
-    {
-        // TODO not decided how it will be stored but here app will read settings
-        _settings = new AppSettings();
-        await Task.CompletedTask;
     }
 
     public bool IsMainViewVisible
@@ -130,6 +109,15 @@ public class MainViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> CommandRunSettings { get; }
     public ReactiveCommand<Unit, Unit> CommandSaveSettings { get; }
     public ReactiveCommand<Unit, Unit> CommandResetSettings { get; }
+
+    public async Task InitializeAsync()
+    {
+        IsMainViewVisible = true;
+        IsSettingsVisuble = false;
+
+        await ReadAppSettings();
+        IntializeOpenAIApi();
+    }
 
     private async void SendMessage()
     {
@@ -223,6 +211,41 @@ public class MainViewModel : ViewModelBase
         this.RaisePropertyChanged(nameof(ListOfMessages));
     }
 
+    private void IntializeOpenAIApi()
+    {
+        if (string.IsNullOrWhiteSpace(_settings.ApiKey))
+        {
+            RunSettings();
+            return;
+        }
+    }
+
+    private async Task ReadAppSettings()
+    {
+        if (!Directory.Exists(_settingsPath))
+        {
+            Directory.CreateDirectory(_settingsPath);
+        }
+
+        if (!File.Exists(_settingsFilePath))
+        {
+            _settings = new AppSettings();
+            return;    
+        }
+
+        using (var sr = new StreamReader(_settingsFilePath))
+        {
+            var deserializedSettings = JsonSerializer.Deserialize<AppSettings>(await sr.ReadToEndAsync());
+
+            if (deserializedSettings is AppSettings appSettings)
+            {
+                _settings = appSettings;
+            }
+        }
+
+        await Task.CompletedTask;
+    }
+
     private void RunSettings()
     {
         _settingsEdit = new AppSettings()
@@ -242,6 +265,9 @@ public class MainViewModel : ViewModelBase
     private void SaveSettings()
     {
         Settings.ApiKey = ProvidedApiKey;
+
+        var serializedSettings = JsonSerializer.Serialize(Settings);
+        File.WriteAllText(_settingsFilePath, serializedSettings.ToString());
 
         HideSettings();
     }
