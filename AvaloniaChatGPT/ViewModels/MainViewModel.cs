@@ -16,12 +16,13 @@ namespace AvaloniaChatGPT.ViewModels;
 
 /*
  * TODO:
- * - show messages as list (repeated item list?)
- * -- each message asd separate textBox or TextBlock (or something else...)
- * -- text should be selectable
- * -- support markdown
- * - options to save history (json, maybe something more)
- * -- improve UI
+ * 1) encrypt API key saved or file that I am saving
+ * - troubleshoot also why does android app now work?
+ * 2) message streaming
+ * - maybe I need different control - Not ListBox
+ * 3) text should be selectable
+ * 4) options to save history (json, maybe something more)
+ * 5) improve UI
  */
 
 public class MainViewModel : ViewModelBase
