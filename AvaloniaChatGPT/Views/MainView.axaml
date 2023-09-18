@@ -88,6 +88,7 @@
       ItemsSource="{Binding ListOfMessages}"
       SelectedItem="{Binding SelectedMessage}">
       <ListBox.ItemTemplate>
+        
         <DataTemplate>
           <Grid>
             <Grid.ColumnDefinitions>
@@ -97,7 +98,15 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" Text="{Binding Time}" TextWrapping="Wrap"/>
-            <md:MarkdownScrollViewer Grid.Column="1" Markdown="{Binding ChatMessage}" />
+            <md:MarkdownScrollViewer Grid.Column="1" Markdown="{Binding ChatMessage}" >
+              <md:MarkdownScrollViewer.ContextMenu>
+                <ContextMenu>
+                  <MenuFlyout>
+                    <Flyout Content="Test"/>
+                  </MenuFlyout>
+                </ContextMenu>
+              </md:MarkdownScrollViewer.ContextMenu>
+            </md:MarkdownScrollViewer>
             <Button Grid.Column="2"
                     Content="X"
                     HorizontalAlignment="Center"
