@@ -101,9 +101,9 @@
             <md:MarkdownScrollViewer Grid.Column="1" Markdown="{Binding ChatMessage}" >
               <md:MarkdownScrollViewer.ContextMenu>
                 <ContextMenu>
-                  <MenuFlyout>
-                    <Flyout Content="Test"/>
-                  </MenuFlyout>
+                  <Menu>
+                    <MenuItem Header="Export JSON" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandExportChatToJSon}"/>
+                  </Menu>
                 </ContextMenu>
               </md:MarkdownScrollViewer.ContextMenu>
             </md:MarkdownScrollViewer>

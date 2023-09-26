@@ -48,6 +48,7 @@ public class MainViewModel : ViewModelBase
         CommandRunSettings = ReactiveCommand.Create(RunSettings);
         CommandSaveSettings = ReactiveCommand.Create(SaveSettings);
         CommandResetSettings = ReactiveCommand.Create(ResetSettings);
+        CommandExportChatToJSon = ReactiveCommand.Create(ExportToJSon);
 
         _listOfMessages = new ObservableCollection<Message>();
     }
@@ -110,6 +111,7 @@ public class MainViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> CommandRunSettings { get; }
     public ReactiveCommand<Unit, Unit> CommandSaveSettings { get; }
     public ReactiveCommand<Unit, Unit> CommandResetSettings { get; }
+    public ReactiveCommand<Unit, Unit> CommandExportChatToJSon { get; }
 
     public async Task InitializeAsync()
     {
@@ -261,6 +263,13 @@ public class MainViewModel : ViewModelBase
     private void ResetSettings()
     {
         HideSettings();
+    }
+
+    private void ExportToJSon()
+    {
+        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), $"{DateTime.UtcNow.Ticks}chat.json");
+        var serializedSettings = JsonSerializer.Serialize(_listOfMessages);
+        File.WriteAllText(path, serializedSettings.ToString());
     }
 
     private void SaveSettings()
