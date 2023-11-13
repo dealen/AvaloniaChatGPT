@@ -6,7 +6,11 @@ namespace AvaloniaChatGPT.Models
     public class AppSettings : ReactiveObject
     {
         private string _apiKey;
-        private Model _selectedModel = OpenAI_API.Models.Model.ChatGPTTurbo;
+        private ModelItem _selectedModel = new ModelItem
+        {
+            Model = Model.ChatGPTTurbo,
+            Name = nameof(Model.ChatGPTTurbo)
+        };
 
         public string ApiKey
         {
@@ -14,7 +18,7 @@ namespace AvaloniaChatGPT.Models
             set => this.RaiseAndSetIfChanged(ref _apiKey, value);
         }
 
-        public Model SelectedModel
+        public ModelItem SelectedModel
         {
             get => _selectedModel;
             set => this.RaiseAndSetIfChanged(ref _selectedModel, value);

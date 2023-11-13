@@ -24,14 +24,9 @@ namespace AvaloniaChatGPT.ChatLogic
         private OpenAIAPI _openApi;
         private Conversation _chat;
 
-        public ChatHandler(string apiKey)
+        public ChatHandler(OpenAIAPI api)
         {
-            if (string.IsNullOrWhiteSpace(apiKey))
-            {
-                throw new ArgumentNullException("Api key is mandatory!!!");
-            }
-
-            _openApi = new OpenAIAPI(apiKey);
+            _openApi = api;
             _chat = _openApi.Chat.CreateConversation(new ChatRequest
             {
                 Model = Model.GPT4,
