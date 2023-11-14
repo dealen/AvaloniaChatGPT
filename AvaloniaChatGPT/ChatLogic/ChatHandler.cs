@@ -54,6 +54,21 @@ namespace AvaloniaChatGPT.ChatLogic
             _chat.AppendUserInput(message);
 
             return await _chat.GetResponseFromChatbotAsync();
+            // TODO
+
+            /*
+             * 
+             * Error at chat/completions (https://api.openai.com/v1/chat/completions) with HTTP status code: BadRequest. Content: {
+      "error": {
+        "message": "This model's maximum context length is 8192 tokens. However, your messages resulted in 8202 tokens. Please reduce the length of the messages.",
+        "type": "invalid_request_error",
+        "param": "messages",
+        "code": "context_length_exceeded"
+      }
+    }
+
+            I need to handle that by moving the Token window
+             */
         }
 
         private void IsChatInitialized()
