@@ -103,6 +103,7 @@
                 <ContextMenu>
                   <Menu>
                     <MenuItem Header="Export JSON" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandExportChatToJSon}"/>
+                    <MenuItem Header="Copy text" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandCopyText}"/>
                   </Menu>
                 </ContextMenu>
               </md:MarkdownScrollViewer.ContextMenu>

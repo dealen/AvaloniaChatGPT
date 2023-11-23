@@ -13,6 +13,8 @@ using System.Text.Json;
 using System.IO;
 using OpenAI_API;
 using System.Collections.Generic;
+using Avalonia;
+using Avalonia.Controls;
 
 namespace AvaloniaChatGPT.ViewModels;
 
@@ -45,6 +47,8 @@ public class MainViewModel : ViewModelBase
     private OpenAIAPI _openAiAPI;
     private int _selectedModelIndex;
 
+    private Window window;
+
     public MainViewModel()
     {
         CommandSendMessage = ReactiveCommand.Create(SendMessage);
@@ -53,6 +57,7 @@ public class MainViewModel : ViewModelBase
         CommandSaveSettings = ReactiveCommand.Create(SaveSettings);
         CommandResetSettings = ReactiveCommand.Create(ResetSettings);
         CommandExportChatToJSon = ReactiveCommand.Create(ExportToJSon);
+        CommandCopyText = ReactiveCommand.Create(CopyText);
         CommandConfigureAssistant = ReactiveCommand.Create(ConfigureAssistant);
 
         _listOfMessages = new ObservableCollection<Message>();
@@ -146,12 +151,14 @@ public class MainViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> CommandSaveSettings { get; }
     public ReactiveCommand<Unit, Unit> CommandResetSettings { get; }
     public ReactiveCommand<Unit, Unit> CommandExportChatToJSon { get; }
+    public ReactiveCommand<Unit, Unit> CommandCopyText { get; }
     public ReactiveCommand<Unit, Unit> CommandConfigureAssistant { get; }
 
-    public async Task InitializeAsync()
+    public async Task InitializeAsync(Window mainWindow)
     {
         IsMainViewVisible = true;
         IsSettingsVisuble = false;
+        window = mainWindow;
 
         await ReadAppSettings();
         _openAiAPI = new OpenAIAPI(_settings.ApiKey);
@@ -314,6 +321,24 @@ public class MainViewModel : ViewModelBase
         string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), $"{DateTime.UtcNow.Ticks}chat.json");
         var serializedSettings = JsonSerializer.Serialize(_listOfMessages);
         File.WriteAllText(path, serializedSettings.ToString());
+    }
+
+    private void CopyText()
+    {
+        if (SelectedMessage is null)
+            return;
+
+        var text = SelectedMessage.ChatMessage;
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
+        SetTextToClipboard(text);
+    }
+
+    private void SetTextToClipboard(string text)
+    {
+        var clipboard = TopLevel.GetTopLevel(window)?.Clipboard;
+        clipboard?.SetTextAsync(text);
     }
 
     private void SaveSettings()

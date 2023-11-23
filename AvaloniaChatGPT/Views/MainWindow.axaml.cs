@@ -15,7 +15,7 @@ public partial class MainWindow : Window
     {
         if (DataContext is not null && DataContext is MainViewModel viewModel)
         {
-            await viewModel.InitializeAsync();
+            await viewModel.InitializeAsync(this);
         }
 
         base.OnLoaded(e);
