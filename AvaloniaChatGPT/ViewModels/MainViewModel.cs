@@ -190,6 +190,8 @@ public class MainViewModel : ViewModelBase
             }
 
             _chatHandler = new ChatHandler(_openAiAPI);
+
+            var chat2 = new BetalgoOpenAIApiImplementation(_settings.ApiKey, _settings.SelectedModel.Model);
         }
 
         ProcessUserInput();
