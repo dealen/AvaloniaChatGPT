@@ -15,6 +15,7 @@ using OpenAI_API;
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 
 namespace AvaloniaChatGPT.ViewModels;
 
@@ -57,8 +58,10 @@ public class MainViewModel : ViewModelBase
         CommandSaveSettings = ReactiveCommand.Create(SaveSettings);
         CommandResetSettings = ReactiveCommand.Create(ResetSettings);
         CommandExportChatToJSon = ReactiveCommand.Create(ExportToJSon);
+        CommandImportChatToJSon = ReactiveCommand.CreateFromTask(ImportFromJSon);
         CommandCopyText = ReactiveCommand.Create(CopyText);
         CommandConfigureAssistant = ReactiveCommand.Create(ConfigureAssistant);
+        CommandExit = ReactiveCommand.CreateFromTask(Exit);
 
         _listOfMessages = [];
         ModelList =
@@ -150,8 +153,10 @@ public class MainViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> CommandSaveSettings { get; }
     public ReactiveCommand<Unit, Unit> CommandResetSettings { get; }
     public ReactiveCommand<Unit, Unit> CommandExportChatToJSon { get; }
+    public ReactiveCommand<Unit, Unit> CommandImportChatToJSon { get; }
     public ReactiveCommand<Unit, Unit> CommandCopyText { get; }
     public ReactiveCommand<Unit, Unit> CommandConfigureAssistant { get; }
+    public ReactiveCommand<Unit, Unit> CommandExit { get; }
 
     public async Task InitializeAsync(Window mainWindow)
     {
@@ -324,17 +329,55 @@ public class MainViewModel : ViewModelBase
         File.WriteAllText(path, serializedSettings.ToString());
     }
 
+    private async Task ImportFromJSon()
+    {
+        var topLevel = TopLevel.GetTopLevel(window);
+
+        if (topLevel is null)
+            return;
+
+        var fileList = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Open Json File",
+            SuggestedStartLocation = await topLevel.StorageProvider.TryGetWellKnownFolderAsync(WellKnownFolder.Desktop),
+            FileTypeFilter = new FilePickerFileType[]
+            {
+                new("Json")
+                {
+                    Patterns = new[] { "*.json" },
+                    AppleUniformTypeIdentifiers = new[] { ".json" },
+                    MimeTypes = new[] { "text/json" }
+                }
+            },
+            AllowMultiple = false
+        });
+
+        var deserializedChat = JsonSerializer.Deserialize<List<Message>>(await fileList[0].OpenReadAsync());
+        if (deserializedChat is not null && deserializedChat.Any())
+        {
+            _listOfMessages = new ObservableCollection<Message>(deserializedChat);
+            this.RaisePropertyChanged(nameof(ListOfMessages));
+        }
+    }
+
     private void CopyText()
     {
         if (SelectedMessage is null)
             return;
 
         var text = SelectedMessage.ChatMessage;
-        if (string.IsNullOrWhiteSpace(text))
+        if (string.IsNullOrWhiteSpace(text)) 
             return;
 
         SetTextToClipboard(text);
     }
+
+    private async Task Exit()
+    {
+        await Task.CompletedTask;
+        window.Close();
+    }
+
 
     private void SetTextToClipboard(string text)
     {

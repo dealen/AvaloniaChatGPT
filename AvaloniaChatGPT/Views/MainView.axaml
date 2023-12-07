@@ -8,116 +8,126 @@
              x:Class="AvaloniaChatGPT.Views.MainView"
              x:DataType="vm:MainViewModel"
              Background="Gray">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
+
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
+		<vm:MainViewModel />
+	</Design.DataContext>
 
-  <Grid Margin="5">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
+	<Grid Margin="5">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="100"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
 
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="Auto" />
-    </Grid.ColumnDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
 
-    <Label
-      ZIndex="2"
-      IsVisible="{Binding IsApiWorking}"
-      Content="LOADING..."
-      Foreground="White"
-      Grid.RowSpan="2"
-      Grid.ColumnSpan="3"
-      HorizontalAlignment="Center"
-      VerticalAlignment="Center"
-      Background="Black"></Label>
-    
-    <Grid
-      Margin="5"
-      Grid.Row="0"
-      Grid.Column="0"
-      ZIndex="1">
+		<Label
+		  ZIndex="2"
+		  IsVisible="{Binding IsApiWorking}"
+		  Content="LOADING..."
+		  Foreground="White"
+		  Grid.RowSpan="3"
+		  Grid.ColumnSpan="3"
+		  HorizontalAlignment="Center"
+		  VerticalAlignment="Center"
+		  Background="Black"></Label>
 
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
+		<Menu Grid.Row="0" ZIndex="1">
+			<MenuItem Header="File">
+				<MenuItem Header="Export JSON" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandExportChatToJSon}" />
+				<MenuItem Header="Import JSON" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandImportChatToJSon}" />
+				<Separator/>
+				<MenuItem Header="Exit" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandExit}" />
+			</MenuItem>
+		</Menu>
 
-      <TextBox Text="{Binding InputText, Mode=TwoWay}" />
+		<Grid
+		  Margin="5"
+		  Grid.Row="1"
+		  Grid.Column="0"
+		  ZIndex="1">
 
-      <Button
-        Grid.Column="1"
-        Margin="5 0 5 0"
-        Padding="10"
-        Height="45"
-        Command="{Binding CommandSendMessage}"
-        IsEnabled="{Binding !IsApiWorking}"
-        VerticalContentAlignment="Center"
-        ToolTip.Tip="Send message"
-        IsDefault="True">
-        <Panel>
-          <Image Source="resm:AvaloniaChatGPT.Assets.sent-icon.png"/>
-        </Panel>
-      </Button>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
 
-      <Button 
-        Grid.Column="2"
-        Height="45"
-        VerticalContentAlignment="Center"
-        Padding="5"
-        Command="{Binding CommandRunSettings}"
-        ToolTip.Tip="Open settings">
-        <Panel>
-          <Image Source="resm:AvaloniaChatGPT.Assets.setting.png"/>
-        </Panel>
-      </Button>
-      
-    </Grid>
+			<TextBox Text="{Binding InputText, Mode=TwoWay}" AcceptsReturn="True" TextWrapping="Wrap"/>
 
-    <ListBox
-      ZIndex="0"
-      Margin="5 0 5 5"
-      Grid.Row="1"
-      Grid.Column="0"
-      ItemsSource="{Binding ListOfMessages}"
-      SelectedItem="{Binding SelectedMessage}">
-      <ListBox.ItemTemplate>
-        
-        <DataTemplate>
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="100"/>
-              <ColumnDefinition Width="*"/>
-              <ColumnDefinition Width="100"/>
-            </Grid.ColumnDefinitions>
+			<Button
+			  Grid.Column="1"
+			  Margin="5 0 5 0"
+			  Padding="10"
+			  Height="45"
+			  Command="{Binding CommandSendMessage}"
+			  IsEnabled="{Binding !IsApiWorking}"
+			  VerticalContentAlignment="Top"
+			  ToolTip.Tip="Send message"
+			  IsDefault="True">
+				<Panel>
+					<Image Source="resm:AvaloniaChatGPT.Assets.sent-icon.png"/>
+				</Panel>
+			</Button>
 
-            <TextBlock Grid.Column="0" Text="{Binding Time}" TextWrapping="Wrap"/>
-            <md:MarkdownScrollViewer Grid.Column="1" Markdown="{Binding ChatMessage}" >
-              <md:MarkdownScrollViewer.ContextMenu>
-                <ContextMenu>
-                  <Menu>
-                    <MenuItem Header="Export JSON" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandExportChatToJSon}"/>
-                    <MenuItem Header="Copy text" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandCopyText}"/>
-                  </Menu>
-                </ContextMenu>
-              </md:MarkdownScrollViewer.ContextMenu>
-            </md:MarkdownScrollViewer>
-            <Button Grid.Column="2"
-                    Content="X"
-                    HorizontalAlignment="Center"
-                    HorizontalContentAlignment="Center"
-                    Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandRemoveMessage}"
-                    CommandParameter="{Binding .}"/>
-          </Grid>
-        </DataTemplate>
-      </ListBox.ItemTemplate>
-    </ListBox>
-  </Grid>
+			<Button
+			  Grid.Column="2"
+			  Height="45"
+			  VerticalContentAlignment="Top"
+			  Padding="5"
+			  Command="{Binding CommandRunSettings}"
+			  ToolTip.Tip="Open settings">
+				<Panel>
+					<Image Source="resm:AvaloniaChatGPT.Assets.setting.png"/>
+				</Panel>
+			</Button>
+
+		</Grid>
+
+		<ListBox
+		  ZIndex="0"
+		  Margin="5 0 5 5"
+		  Grid.Row="2"
+		  Grid.Column="0"
+		  ItemsSource="{Binding ListOfMessages}"
+		  SelectedItem="{Binding SelectedMessage}">
+			<ListBox.ItemTemplate>
+
+				<DataTemplate>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="100"/>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="100"/>
+						</Grid.ColumnDefinitions>
+
+						<TextBlock Grid.Column="0" Text="{Binding Time}" TextWrapping="Wrap"/>
+						<md:MarkdownScrollViewer Grid.Column="1" Markdown="{Binding ChatMessage}" >
+							<md:MarkdownScrollViewer.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="Export JSON" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandExportChatToJSon}" />
+									<MenuItem Header="Import JSON" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandImportChatToJSon}" />
+									<MenuItem Header="Copy text" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandCopyText}"/>
+								</ContextMenu>
+							</md:MarkdownScrollViewer.ContextMenu>
+						</md:MarkdownScrollViewer>
+						<Button Grid.Column="2"
+								Content="X"
+								HorizontalAlignment="Center"
+								HorizontalContentAlignment="Center"
+								Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandRemoveMessage}"
+								CommandParameter="{Binding .}"/>
+					</Grid>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</Grid>
 
 </UserControl>
