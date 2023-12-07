@@ -60,14 +60,13 @@ public class MainViewModel : ViewModelBase
         CommandCopyText = ReactiveCommand.Create(CopyText);
         CommandConfigureAssistant = ReactiveCommand.Create(ConfigureAssistant);
 
-        _listOfMessages = new ObservableCollection<Message>();
-        ModelList = new List<ModelItem>
-        {
+        _listOfMessages = [];
+        ModelList =
+        [
             new ModelItem { Model = Model.ChatGPTTurbo, Name = nameof(Model.ChatGPTTurbo) },
-            new ModelItem { Model = Model.ChatGPTTurbo0301, Name = nameof(Model.ChatGPTTurbo0301) },
             new ModelItem { Model = Model.GPT4, Name = nameof(Model.GPT4) },
             new ModelItem { Model = Model.GPT4_32k_Context, Name = nameof(Model.GPT4_32k_Context) },
-        };
+        ];
 
         OpenAIModelList = new ObservableCollection<ModelItem>(ModelList);
     }

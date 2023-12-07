@@ -21,8 +21,8 @@ namespace AvaloniaChatGPT.ChatLogic
 
     internal class ChatHandler
     {
-        private OpenAIAPI _openApi;
-        private Conversation _chat;
+        private OpenAIAPI? _openApi;
+        private Conversation? _chat;
 
         public ChatHandler(OpenAIAPI api)
         {
@@ -41,6 +41,8 @@ namespace AvaloniaChatGPT.ChatLogic
                 //var model = await _chat.Model.RetrieveModelDetailsAsync(_openApi);
                 
             }
+
+            await Task.CompletedTask;
         }
 
         public async Task<string> AskQuestion(string message, List<string> sentences = null)
