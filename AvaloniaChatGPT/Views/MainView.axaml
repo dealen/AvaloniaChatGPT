@@ -41,10 +41,19 @@
 
 		<Menu Grid.Row="0" ZIndex="1">
 			<MenuItem Header="File">
-				<MenuItem Header="Export JSON" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandExportChatToJSon}" />
-				<MenuItem Header="Import JSON" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandImportChatToJSon}" />
+				<MenuItem
+          Header="Export JSON"
+          Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandExportChatToJSon}"
+          IsEnabled="True"/>
+				<MenuItem
+          Header="Import JSON"
+          Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandImportChatToJSon}"
+          IsEnabled="True"/>
 				<Separator/>
-				<MenuItem Header="Exit" Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandExit}" />
+				<MenuItem
+          Header="Exit"
+          Command="{Binding $parent[ListBox].((vm:MainViewModel)DataContext).CommandExit}"
+          IsEnabled="True"/>
 			</MenuItem>
 		</Menu>
 

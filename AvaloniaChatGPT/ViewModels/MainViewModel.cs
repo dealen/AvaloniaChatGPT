@@ -324,39 +324,55 @@ public class MainViewModel : ViewModelBase
 
     private void ExportToJSon()
     {
-        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), $"{DateTime.UtcNow.Ticks}chat.json");
-        var serializedSettings = JsonSerializer.Serialize(_listOfMessages);
-        File.WriteAllText(path, serializedSettings.ToString());
+        try
+        {
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), $"{DateTime.UtcNow.Ticks}chat.json");
+            var serializedSettings = JsonSerializer.Serialize(_listOfMessages);
+            File.WriteAllText(path, serializedSettings.ToString());
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
     }
 
     private async Task ImportFromJSon()
     {
-        var topLevel = TopLevel.GetTopLevel(window);
-
-        if (topLevel is null)
-            return;
-
-        var fileList = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        try
         {
-            Title = "Open Json File",
-            SuggestedStartLocation = await topLevel.StorageProvider.TryGetWellKnownFolderAsync(WellKnownFolder.Desktop),
-            FileTypeFilter = new FilePickerFileType[]
+            var topLevel = TopLevel.GetTopLevel(window);
+
+            if (topLevel is null)
+                return;
+
+            var fileList = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
-                new("Json")
+                Title = "Open Json File",
+                SuggestedStartLocation = await topLevel.StorageProvider.TryGetWellKnownFolderAsync(WellKnownFolder.Desktop),
+                FileTypeFilter = new FilePickerFileType[]
                 {
-                    Patterns = new[] { "*.json" },
-                    AppleUniformTypeIdentifiers = new[] { ".json" },
-                    MimeTypes = new[] { "text/json" }
-                }
-            },
-            AllowMultiple = false
-        });
+                    new("Json")
+                    {
+                        Patterns = new[] { "*.json" },
+                        AppleUniformTypeIdentifiers = new[] { ".json" },
+                        MimeTypes = new[] { "text/json" }
+                    }
+                },
+                AllowMultiple = false
+            });
 
-        var deserializedChat = JsonSerializer.Deserialize<List<Message>>(await fileList[0].OpenReadAsync());
-        if (deserializedChat is not null && deserializedChat.Any())
+            var deserializedChat = JsonSerializer.Deserialize<List<Message>>(await fileList[0].OpenReadAsync());
+            if (deserializedChat is not null && deserializedChat.Any())
+            {
+                _listOfMessages = new ObservableCollection<Message>(deserializedChat);
+                this.RaisePropertyChanged(nameof(ListOfMessages));
+            }
+        }
+        catch (Exception ex)
         {
-            _listOfMessages = new ObservableCollection<Message>(deserializedChat);
-            this.RaisePropertyChanged(nameof(ListOfMessages));
+
+            throw;
         }
     }
 
